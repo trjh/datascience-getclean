@@ -12,3 +12,13 @@
 
 # my notes
 notes.txt
+
+# swap files
+*.swp
+
+# ispell leftovers
+*.bak
+
+# we're not uploading the source dataset, or experimental output
+UCI HAR Dataset
+tidydata_e.txt
