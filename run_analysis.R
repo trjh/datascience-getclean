@@ -31,7 +31,7 @@ sapply(c("test", "train"),
 )
 
 # now read the test data set -- the default settings of read.table are fine here
-testfeat <- read.table(files[1,"test"])		# 563 col, 2947 rows
+testfeat <- read.table(files[1,"test"])		# 561 col, 2947 rows
 testsub  <- read.table(files[2,"test"])		# 1 col, 2947 rows
 testact  <- read.table(files[3,"test"])		# 1 col, 2947 rows
 
@@ -45,7 +45,7 @@ rm(testfeat, testsub, testact)
 # now read the train data in the same manner
 # i could do the whole thing with a for loop, but this is
 # more explicit
-trainfeat <- read.table(files[1,"train"])	# 563 col, 7352 rows
+trainfeat <- read.table(files[1,"train"])	# 561 col, 7352 rows
 trainsub  <- read.table(files[2,"train"])	# 1 col, 7352 rows
 trainact  <- read.table(files[3,"train"])	# 1 col, 7352 rows
 
@@ -59,19 +59,12 @@ rm(trainfeat, trainsub, trainact)
 dataset <- rbind(traindata, testdata)
 
 ## sanity check
-if (!identical(as.numeric(dim(dataset)), c(10299, 564))) {
-    print("expected merged dataset to have dimensions 10299 x 563")
-    print("stopping")
-    return;
+if (!identical(as.numeric(dim(dataset)), c(10299, 563))) {
+    stop("expected merged dataset to have dimensions 10299 x 563")
 }
 
 # keep memory tidy
 rm(traindata, testdata)
-
-# set up a dplyr data frame table for later use.  we'll do some things
-# the 'hard' way, and the 'dplyr' way, to learn about dplyr
-library(dplyr)
-datasetd <- tbl_df(dataset)
 
 ##
 ## 2. Extracts only the measurements on the mean and standard deviation for
@@ -120,15 +113,9 @@ dataextract <- dataset[c(activitycol, subjectcol, featurescols)]
 e.activitycol = 1
 e.subjectcol  = 2
 
-# given n, a column number in the original features list,
-# returns the column number it corresponds to in the extract
-e.feature <- function(n) ( which(featurescols == n) + 2 )
-
 ## sanity check
 if (!identical(as.numeric(dim(dataextract)), c(10299, 68))) {
-    print("expected dataset extract to have dimensions 10299 x 68")
-    print("stopping")
-    return;
+    stop("expected dataset extract to have dimensions 10299 x 68")
 }
 
 # now, to assure ourselves that the extracted data is "clean"
@@ -139,18 +126,9 @@ if (!identical(as.numeric(dim(dataextract)), c(10299, 68))) {
 # values in the dataextract
 # ...and verify that it is zero
 if (sum(sapply(lapply(dataextract,is.na),sum)) != 0) {
-    print("expected no NA values in dataextract, stopping")
-    return
+    stop("expected no NA values in dataextract, stopping")
 }
 
-# done via dyplr -- we have to use the V names, because dplyr doesn't
-# use column numbers.  however, before we can do that, we have to
-# change the name on activitycol and subjectcol, as they are
-# duplicates (V1 and V2)
-names(datasetd)[activitycol] <- "activity"
-names(datasetd)[subjectcol]  <- "subject"
-dataextractd <-
-    select(datasetd, activity, subject, num_range("V", featurescols))
 
 ##
 ## 3. Uses descriptive activity names to name the activities in the data set
@@ -166,12 +144,6 @@ activity_labels <-
     read.table(paste(basepath,"/activity_labels.txt", sep=""))
 	
 # now use lapply to create a factor vector containing activity names.
-# ...i thought i might need to use vapply, but
-#	(a) the 2nd column of activity_labels is already a factor
-#	(b) i couldn't figure out how to tell vapply to return a
-#	    factored result with FUN.VALUE equal to factor(1) or
-#	    factor(0) or as.factor()
-
 activity_column <-
     lapply(dataextract[e.activitycol],
 	   function(a) activity_labels[a,2])
@@ -179,9 +151,6 @@ activity_column <-
 # replace the activity column in the dataextract table with the  labeled
 # column (first element in the list from lapply)
 dataextract[e.activitycol] <- activity_column[[1]]
-
-# dplyr: don't see another way to do this at the mo
-dataextractd$activity = activity_column$V1
 
 ##
 ## 4. Appropriately labels the data set with descriptive variable names. 
@@ -214,23 +183,10 @@ if (!identical(dataextract$tBodyGyro_mean_X,
 	       as.numeric(dataset[121][[1]])
 	      ))
 {
-    print(paste("expected tBodyGyro_mean_X to have same values",
+    stop(paste("expected tBodyGyro_mean_X to have same values",
 		"as in dataset col 121, stopping"))
-    return
 }
 
-# dplyr: not very different but let's show mutate() anyway
-feature_lab2 <- tbl_df(
-    read.table(paste(basepath,"/features.txt", sep=""),
-	       stringsAsFactors = FALSE)
-)
-
-# dplyr: this probably isn't the best way to do this
-feature_lab2 <- feature_lab2 %>%
-		mutate(clean = gsub("[()]","",V2)) %>%
-		mutate(clean = gsub("-","_",clean))
-names(dataextractd) =
-    c("activity", "subject", feature_lab2$clean[featurescols])
 
 ##
 ##    5. From the data set in step 4, creates a second, independent tidy data
@@ -242,6 +198,10 @@ names(dataextractd) =
 # programmatically specify that I want the mean() of all columns in
 # "dataextractd", so until I come across that in the week 3 lessons, I'll just
 # list them, using
+
+# set up a dplyr data frame table version of *dataextract*
+library(dplyr)
+dataextractd <- tbl_df(dataextract)
 
 comment_list_method <- '
 select(dataextractd, -activity, -subject) %>% names %>%
