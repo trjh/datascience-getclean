@@ -11,7 +11,7 @@ This repository includes the following files:
 
 * README.md -- this file
 * CodeBook.md -- description of the variables contained in the data set
-* run\_analysis.R -- an R script used to process the files in the **UCI HAR Dataset** directory into a tidy data set
+* run\_analysis.R -- an R script used to process the files in the **UCI HAR Dataset** directory into a tidy data set.  **This must be run in the same directory as the "UCI HAR DATAset" directory.**
 * tidydata.txt -- the tidy data set
 
 The **UCI HAR Dataset** files are not included in this repository, but are available directly via [this link](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip) or indirectly from the [dataset home page](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
@@ -20,11 +20,13 @@ One extra file, **experimental.R**, contains extra code (alternative ways to
 do what run\_analysis.R does) and commentary.  Thus I can still record all my
 experiments and approaches, but not confuse those trying to grade my work.
 
-### More information
+### About the source dataset
 
 The Human Activity Recognition Using Smartphones Data Set  (*UCI HAR Dataset*) is a database built from the recordings of 30 subjects performing activities of daily living (ADL) while carrying a waist-mounted smartphone (Samsung Galaxy S II) with embedded inertial sensors.
 
 The original data set contains 10,299 measurements spread across 30 subjects performing 6 activities, and split into a 2,947 measurement test set and a 7,352 measurement training set.  These data samples are provided in raw form (as 128 element vectors), and in processed form.  The processed (features) variables are calculations of 17 signals, in the time and frequency domain, from each 128-element sample.  These 17 signals are then put through various other functions, and these comprise the 561 "features" provided for each measurement in the source data set.
+
+### The tidy data set and the script to produce it
 
 The objectives of this project are to create one R script (*run_analysis.R*) that does the following: 
 
@@ -34,9 +36,10 @@ The objectives of this project are to create one R script (*run_analysis.R*) tha
 4. Appropriately labels the data set with descriptive variable names. 
 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
+
 A further explanation of how the script carries out each of these steps follows.
 
-#### Merge the training and the test sets to create one data set.
+#### 1. Merge the training and the test sets to create one data set.
 
 The script first creates a character vector *files* that contains the files we want to read.  We don't bother with the raw measurements files contained in the source dataset, but instead go straight for the files containing the features variables (X\_test.txt, X\_train.txt), the subject identifier (subject\_test.txt, subject\_train.txt), and the activity identifier (y\_test.txt, y\_train.txt)
 
@@ -46,7 +49,7 @@ Finally, we use *rbind* to merge those two tables into a **dataset** table
 with 563 columns and 10,299 rows.
 
 
-#### Extract only the measurements on the mean and standard deviation for each measurement. 
+#### 2. Extract only the measurements on the mean and standard deviation for each measurement. 
 
 In this section, we create a new data.frame, **dataextract**, containing only
 the desired measurements, as well as the activity and subject variables.
@@ -68,7 +71,7 @@ At the end of this section, we run a sanity check to ensure that
 NA values.
 
 
-#### Uses descriptive activity names to name the activities in the data set
+#### 3. Uses descriptive activity names to name the activities in the data set
 
 In this section, we read the activity\_labels.txt file into
 **activity_labels**, which contains two columns -- the activity numbers (as
@@ -83,7 +86,7 @@ Finally, we use the result to replace the existing activity column of
 **dataextract**
 
 
-#### Appropriately labels the data set with descriptive variable names. 
+#### 4. Appropriately labels the data set with descriptive variable names. 
 
 In this section, we read the features.txt file, which contains two columns --
 row numbers, and labels.  We then modify the labels to remove parenthesis and
@@ -94,7 +97,7 @@ the desired, tidied activity labels and use *names* to apply them to our
 extract table, **dataextract**
 
 
-#### From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+#### 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
 Here we look to the *dplyr* library, to group the data extract by activity and
 subject, then summarize it via those groupings.
