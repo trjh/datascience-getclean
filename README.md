@@ -1,5 +1,4 @@
-## Getting and Cleaning Data
-## Course Project
+## Getting and Cleaning Data: Course Project
 
 This repository contains a processed version of the [UCI HAR Dataset](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones),
 according to the objectives laid out in the [Getting and Cleaning Data Course
