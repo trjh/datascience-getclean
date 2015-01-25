@@ -92,6 +92,12 @@ In this section, we read the features.txt file, which contains two columns --
 row numbers, and labels.  We then modify the labels to remove parenthesis and
 dashes (though the final result will have parenthesis).
 
+We also change the labels from the features.txt file that contain "BodyBody"
+to only containing one instance of the word "Body" (e.g. fBodyAccMag\_mean
+instead of fBodyBodyAccMag\_mean).  fBodyAccMag is mentioned in
+features\_info.txt, but fBodyBodyAccMag is not, so I feel I'm safe in
+presuming that I'm correcting typos.
+
 Finally, we use the **featurescols** vector from the last section to extract
 the desired, tidied activity labels and use *names* to apply them to our
 extract table, **dataextract**

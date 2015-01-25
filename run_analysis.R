@@ -173,6 +173,14 @@ feature_labels["clean"] <- gsub("[()]","",feature_labels$V2)
 # interpreted as minus signs in dataextract$tBodyGyro-mean-X
 feature_labels["clean"] <- gsub("-","_",feature_labels$clean)
 
+# now, the features_info.txt file mentions "fBodyAccJerkMag", "fBodyGyroMag",
+# and "fBodyGyroJerkMag".  The features.txt file does not mention these
+# measurments, but instead lists permutations of "fBodyBodyAccJerkMag",
+# "fBodyBodyGyroMag", and "fBodyBodyGyroJerkMag".  These 'BodyBody'
+# measurements are not listed in features_info.txt.  Thus I'm assuming this is
+# a confusing mistake, and changing all instances of BodyBody to Body.
+feature_labels["clean"] <- gsub("BodyBody","Body",feature_labels$clean)
+
 # now apply our collected new names to the dataextract table
 names(dataextract) =
     c("activity", "subject", feature_labels$clean[featurescols])
@@ -272,12 +280,12 @@ tidydata <- dataextractd %>%
 	mean(fBodyGyro_std_Z),
 	mean(fBodyAccMag_mean),
 	mean(fBodyAccMag_std),
-	mean(fBodyBodyAccJerkMag_mean),
-	mean(fBodyBodyAccJerkMag_std),
-	mean(fBodyBodyGyroMag_mean),
-	mean(fBodyBodyGyroMag_std),
-	mean(fBodyBodyGyroJerkMag_mean),
-	mean(fBodyBodyGyroJerkMag_std)
+	mean(fBodyAccJerkMag_mean),
+	mean(fBodyAccJerkMag_std),
+	mean(fBodyGyroMag_mean),
+	mean(fBodyGyroMag_std),
+	mean(fBodyGyroJerkMag_mean),
+	mean(fBodyGyroJerkMag_std)
     )
 
 outputfilename <- "tidydata.txt"
