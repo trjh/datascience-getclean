@@ -56,8 +56,8 @@ The remainder of the values are the mean value of all the measurements taken whi
 
 * mean(tBodyAcc_mean_X) -- mean of means of tBodyAcc in the X direction
 * mean(tBodyAcc_mean_Y) -- as above, in the Y direction
-* mean(tBodyAcc_mean_Z) -- as above, in the z direction
-* mean(tBodyAcc_std_X) -- mean of standard deviations of tBodyAcc, in the X direction
+* mean(tBodyAcc_mean_Z) -- as above, in the Z direction
+* mean(tBodyAcc_std_X) -- mean of standard deviations of tBodyAcc in the X direction
 * mean(tBodyAcc_std_Y) -- as above, in the Y direction
 * mean(tBodyAcc_std_Z) -- as above, in the Z direction
 * mean(tGravityAcc_mean_X) -- mean of means of tGravityAcc in the X direction
@@ -81,45 +81,45 @@ The remainder of the values are the mean value of all the measurements taken whi
 * mean(tBodyGyroJerk_mean_X) -- mean of means of tBodyGyroJerk in the X direction
 * mean(tBodyGyroJerk_mean_Y) -- as above, in the Y direction
 * mean(tBodyGyroJerk_mean_Z) -- as above, in the Z direction
-* mean(tBodyGyroJerk_std_X) -- mean of standard devations of tBodyGyroJerk in the X direction
+* mean(tBodyGyroJerk_std_X) -- mean of standard deviations of tBodyGyroJerk in the X direction
 * mean(tBodyGyroJerk_std_Y) -- as above, in the Y direction
 * mean(tBodyGyroJerk_std_Z) -- as above, in the Z direction
-* mean(tBodyAccMag_mean) -- mean of means of tBodyAccMag
-* mean(tBodyAccMag_std) -- mean of standard devations of tBodyAccMag
-* mean(tGravityAccMag_mean)
-* mean(tGravityAccMag_std)
-* mean(tBodyAccJerkMag_mean)
-* mean(tBodyAccJerkMag_std)
-* mean(tBodyGyroMag_mean)
-* mean(tBodyGyroMag_std)
-* mean(tBodyGyroJerkMag_mean)
-* mean(tBodyGyroJerkMag_std)
-* mean(fBodyAcc_mean_X)
+* mean(tBodyAccMag_mean) -- mean of means of tBodyAccMag 
+* mean(tBodyAccMag_std) -- mean of standard deviations of tBodyAccMag 
+* mean(tGravityAccMag_mean) -- mean of means of tGravityAccMag 
+* mean(tGravityAccMag_std) -- mean of standard deviations of tGravityAccMag 
+* mean(tBodyAccJerkMag_mean) -- mean of means of tBodyAccJerkMag 
+* mean(tBodyAccJerkMag_std) -- mean of standard deviations of tBodyAccJerkMag 
+* mean(tBodyGyroMag_mean) -- mean of means of tBodyGyroMag 
+* mean(tBodyGyroMag_std) -- mean of standard deviations of tBodyGyroMag 
+* mean(tBodyGyroJerkMag_mean) -- mean of means of tBodyGyroJerkMag 
+* mean(tBodyGyroJerkMag_std) -- mean of standard deviations of tBodyGyroJerkMag 
+* mean(fBodyAcc_mean_X) -- mean of means of fBodyAcc in the X direction
 * mean(fBodyAcc_mean_Y) -- as above, in the Y direction
 * mean(fBodyAcc_mean_Z) -- as above, in the Z direction
-* mean(fBodyAcc_std_X)
+* mean(fBodyAcc_std_X) -- mean of standard deviations of fBodyAcc in the X direction
 * mean(fBodyAcc_std_Y) -- as above, in the Y direction
 * mean(fBodyAcc_std_Z) -- as above, in the Z direction
-* mean(fBodyAccJerk_mean_X)
+* mean(fBodyAccJerk_mean_X) -- mean of means of fBodyAccJerk in the X direction
 * mean(fBodyAccJerk_mean_Y) -- as above, in the Y direction
 * mean(fBodyAccJerk_mean_Z) -- as above, in the Z direction
-* mean(fBodyAccJerk_std_X)
+* mean(fBodyAccJerk_std_X) -- mean of standard deviations of fBodyAccJerk in the X direction
 * mean(fBodyAccJerk_std_Y) -- as above, in the Y direction
 * mean(fBodyAccJerk_std_Z) -- as above, in the Z direction
-* mean(fBodyGyro_mean_X)
+* mean(fBodyGyro_mean_X) -- mean of means of fBodyGyro in the X direction
 * mean(fBodyGyro_mean_Y) -- as above, in the Y direction
 * mean(fBodyGyro_mean_Z) -- as above, in the Z direction
-* mean(fBodyGyro_std_X)
+* mean(fBodyGyro_std_X) -- mean of standard deviations of fBodyGyro in the X direction
 * mean(fBodyGyro_std_Y) -- as above, in the Y direction
 * mean(fBodyGyro_std_Z) -- as above, in the Z direction
-* mean(fBodyAccMag_mean)
-* mean(fBodyAccMag_std)
-* mean(fBodyAccJerkMag_mean)
-* mean(fBodyAccJerkMag_std)
-* mean(fBodyGyroMag_mean)
-* mean(fBodyGyroMag_std)
-* mean(fBodyGyroJerkMag_mean)
-* mean(fBodyGyroJerkMag_std)
+* mean(fBodyAccMag_mean) -- mean of means of fBodyAccMag 
+* mean(fBodyAccMag_std) -- mean of standard deviations of fBodyAccMag 
+* mean(fBodyAccJerkMag_mean) -- mean of means of fBodyAccJerkMag 
+* mean(fBodyAccJerkMag_std) -- mean of standard deviations of fBodyAccJerkMag 
+* mean(fBodyGyroMag_mean) -- mean of means of fBodyGyroMag 
+* mean(fBodyGyroMag_std) -- mean of standard deviations of fBodyGyroMag 
+* mean(fBodyGyroJerkMag_mean) -- mean of means of fBodyGyroJerkMag 
+* mean(fBodyGyroJerkMag_std) -- mean of standard deviations of fBodyGyroJerkMag 
 
 The bulk of the descriptions in this section are programattically
 self-explanatory:
