@@ -1,15 +1,17 @@
-## Getting and Cleaning Data
-## Course Project
+## Code Book: Getting and Cleaning Data Course Project
 
-## Code Book
+### Study Design / Source Variables
 
----
+The data in this project comes from the Human Activity Recognition
+Using Smartphones Data Set ( [UCI HAR Dataset](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones) ).
+This is a database built from the recordings of 30 subjects performing
+activities of daily living (ADL) while carrying a waist-mounted smartphone
+(Samsung Galaxy S II) with embedded inertial sensors.
 
-### Source Variables
-
-This section gives a brief description of the source data set, and the base variables in the source data that are processed into our tidy data set.
-
-The Human Activity Recognition Using Smartphones Data Set  (*UCI HAR Dataset*) is a database built from the recordings of 30 subjects performing activities of daily living (ADL) while carrying a waist-mounted smartphone (Samsung Galaxy S II) with embedded inertial sensors.
+More details on the design of the UCI study are provided at the link above,
+and in the README.txt and features_info.txt files in the dataset.  The rest of
+this section will briefly describe the source variables we used to create our
+own tidy data version of the UCI data set.
 
 From the UCI HAR Dataset README.txt file:
 
@@ -37,7 +39,7 @@ The components of the measurements are:
 * fBodyGyroMag -- magnitude of 3 dimensional fBodyGyro measurement.  Units proportional to radians/second.
 * fBodyGyroJerkMag -- magnitude of 3 dimensional fBodyGyroJerk measurement (time rate of change of fBodyGyro), units proportional to radians/second^2.
 
-[^1]: [Wikipedia: Jerk (physics))](http://en.wikipedia.org/wiki/Jerk_(physics))
+[^1]: [Wikipedia: Jerk (physics)](http://en.wikipedia.org/wiki/Jerk_%28physics%29)
 
 [^2]: [What are the units of the FFT output?](http://math.stackexchange.com/questions/175043/what-is-the-unit-of-the-fft-output)
 
@@ -46,6 +48,8 @@ The components of the measurements are:
 ### Tidy Data Set Variables
 
 The following is a list of each of the variables in our tidy data set (tidy_data.txt), with a short description based on the details in the previous section.
+The process used to derive these variables is described in the accomanying
+README.md file, and in the comments of the run_analysis.R script.
 
 * activity -- a string label, detailing which one of six particular activities the subject was engaged in during the measurements
 * subject -- a number, 1-30, identifying which subject this measurement applies to
