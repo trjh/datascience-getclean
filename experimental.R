@@ -16,6 +16,9 @@ if (!file.exists(basepath)) {
 ## 1. Merges the training and the test sets to create one data set.
 ##
 
+## 20150128 message() from student1
+message("loading and merging data sets")
+
 # As we'll see from later steps, we need the 'features' data (variables
 # calculated, in the time & frequency domain, from the raw samples), as well
 # as the subject and activity associated with each set of features.  This data
@@ -76,6 +79,8 @@ datasetd <- tbl_df(dataset)
 ##    each measurement.
 ##
 
+message("extracting desired measurements")
+
 # The features_info.txt files starts out describing 17 signals, measured from
 # the raw samples in the time and frequency domain.  Two of the measurements
 # estimated from each of these signals are
@@ -104,12 +109,30 @@ featurescols = c(
      254, 266, 267, 268, 269, 270, 271, 345, 346, 347, 348, 349, 350,
      424, 425, 426, 427, 428, 429, 503, 504, 516, 517, 529, 530, 542,
      543)
+
+## 20150128: now do this with grep()
+feature_labels <-
+    read.table(paste(basepath,"/features.txt", sep=""),
+	       stringsAsFactors = FALSE)
+featurescols <- grep("(mean|std)\\(\\)", feature_labels$V2)
+    # the backlash must be escaped from R \\ before it can be \( in the
+    # pattern
 subjectcol = 562
 activitycol = 563
 
 # perform the extract, placing the activity and subject columns at the start
 # of the extract table
 dataextract <- dataset[c(activitycol, subjectcol, featurescols)]
+
+## we could have also done
+## we could also do this with:
+#dataextract <- rbind(
+#		cbind(trainact, trainsub, subset(trainfeat, featurescols))
+#		cbind(testact,  testsub,  subset(testfeat,  featurescols))
+#		)
+## key bits: subset
+## or if we'd bound dataset with activity & subject columns first
+## dataextract <- dataset[c(1, 2, featurescols + 2)]
 
 # now, as we don't yet have proper column names, we'll define some variables
 # and a function to tell us which extract columns are which.
@@ -151,6 +174,8 @@ dataextractd <-
 ## 3. Uses descriptive activity names to name the activities in the data set
 ##
 
+message("using descriptive activity names")
+
 # The activity column is currently a number in the range 1:6.  This is
 # translated to activities by the activity_labels.txt file.  We're now going
 # to read in that file and use it to change the activity column in dataextract
@@ -182,15 +207,15 @@ dataextractd$activity = activity_column$V1
 ## 4. Appropriately labels the data set with descriptive variable names. 
 ##
 
+message("appropriately labelling the data set")
+
 # here, we'll just use "activity" and "subject" for the first two
 # variable names.  we'll collect the rest of the variable names from
 # the features.txt file.  we'll need to modify those names to remove
 # the parenthesis in mean() and std(), so as it make the variable names
 # easier to use
 
-feature_labels <-
-    read.table(paste(basepath,"/features.txt", sep=""),
-	       stringsAsFactors = FALSE)
+## 20150128: now we do this earlier in order to grep() appropriate labels
 
 # substitute any instance of ( or ) with the empty string ""
 feature_labels["clean"] <- gsub("[()]","",feature_labels$V2)
@@ -241,6 +266,8 @@ names(dataextractd) =
 ##       set with the average of each variable for each activity and each
 ##       subject.
 ##
+
+message("creating and writing tidy data set")
 
 # the easiest way to do this is with dplyr.  I don't yet have a way to
 # programmatically specify that I want the mean() of all columns in
@@ -323,6 +350,19 @@ tidydata <- dataextractd %>%
 	mean(fBodyGyroJerkMag_mean),
 	mean(fBodyGyroJerkMag_std)
     )
+
+## 20150128 alternatively, and tidier
+## aggregate(a-table, list-you-are-agreggating-by, function)
+## note that we only aggregate the 3rd - 68th column
+tidydata <- aggregate(dataextract[,3:ncol(dataextract)],
+		      list(activity=dataextract$activity,
+			   subject=dataextract$subject),
+		      mean)
+tidydata <- tidydata[order(tidydata$activity,tidydata$subject),]
+names(tidydata) <- c(
+    names(tidydata)[1:2],
+    sub("(.*)","mean(\\1)",names(tidydata)[3:ncol(tidydata)])
+)
 
 outputfilename <- "tidydata_e.txt"
 
