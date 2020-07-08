@@ -117,6 +117,14 @@ feature_labels <-
 featurescols <- grep("(mean|std)\\(\\)", feature_labels$V2)
     # the backlash must be escaped from R \\ before it can be \( in the
     # pattern
+
+## 20150131: data.tables support %like% and %in%!
+library(data.table)
+DTfeature_labels <- data.table(feature_labels)
+DTfeature_labels <- subset(DTfeature_labels,
+			   V2 %like% "mean\\(\\)" | V2 %like% "std\\(\\)")
+featurescols <- DTfeature_labels$V1
+
 subjectcol = 562
 activitycol = 563
 
@@ -223,6 +231,9 @@ feature_labels["clean"] <- gsub("[()]","",feature_labels$V2)
 # substitute any instance of - with the string "_" as the dashes will be
 # interpreted as minus signs in dataextract$tBodyGyro-mean-X
 feature_labels["clean"] <- gsub("-","_",feature_labels$clean)
+
+## 20150129 something similar done by this:
+# feature_labels["clean"] <- make.names(feature_labels$V2)
 
 # now, the features_info.txt file mentions "fBodyAccJerkMag", "fBodyGyroMag",
 # and "fBodyGyroJerkMag".  The features.txt file does not mention these
@@ -364,11 +375,24 @@ names(tidydata) <- c(
     sub("(.*)","mean(\\1)",names(tidydata)[3:ncol(tidydata)])
 )
 
+## 20150129 another alternative
+## though it causes tiny diff for SITTING, subject 6, mean(tBodyAcc_std_X)
+# library(plyr)
+# t <-
+#     ddply(dataextract,.(activity, subject),function(x) {colMeans(x[,3:68])})
+# t <- t[order(t$activity,t$subject),]
+# names(t) <- c(
+#     names(t)[1:2],
+#     sub("(.*)","mean(\\1)",names(t)[3:ncol(t)])
+# )
+
 outputfilename <- "tidydata_e.txt"
 
-capture.output(
-    write.table(tidydata, row.name = FALSE),
-    file = outputfilename
-)
+# capture.output(
+#    write.table(tidydata, row.name = FALSE),
+#    file = outputfilename
+#)
+## 20150129  or, um, er
+write.table(tidydata, file = outputfilename, row.names=FALSE)
 
 cat(paste("output table 'tidydata' written to file:",outputfilename,"\n"))
