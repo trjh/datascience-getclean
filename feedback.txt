@@ -1,0 +1,10 @@
+score 41/41
+
+comments:
+peer 1 - Nice Job
+peer 2 - [This area was left blank by the evaluator.]
+peer 3 - [This area was left blank by the evaluator.]
+peer 4 - The code written makes use of the column numbers instead of
+	 programmatically extracting the column names using regex for mean and
+	 std.  This makes the code re-use limited. If a new dataset comes in
+	 with changed column order then the same code can't be re-used.
